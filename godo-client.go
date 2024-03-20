@@ -1,9 +1,10 @@
 /*
- 2095  GOPATH=~/go/ go run godo-client.go -f=c --fingerprint ~/keys/id_rsa.pub.fingerprint
- 2096  GOPATH=~/go/ go run godo-client.go -f=t temp
- 2097  GOPATH=~/go/ go run godo-client.go -f=n temp-2024-03-20--011619
- 2098  GOPATH=~/go/ go run godo-client.go -f=d temp-2024-03-20--011619
- 2099  GOPATH=~/go/ go run godo-client.go -f=t temp
+ GOPATH=~/go/ go run godo-client.go -f=c --fingerprint ~/keys/id_rsa.pub.fingerprint
+ GOPATH=~/go/ go run godo-client.go -f=t temp
+ GOPATH=~/go/ go run godo-client.go -f=n temp-2024-03-20--011619
+ GOPATH=~/go/ go run godo-client.go -f=l temp-2024-03-20--011619
+ GOPATH=~/go/ go run godo-client.go -f=d temp-2024-03-20--011619
+ GOPATH=~/go/ go run godo-client.go -f=t temp
 */
 package main
 
