@@ -20,7 +20,9 @@ import (
 	"time"
 )
 
-var Fingerprint = flag.String("fingerprint", "", "filename containing ssh key fingerprint, for droplet creation")
+var Token = flag.String("token", "/etc/digitalocean.token", "filename containing digital ocean fingerprint")
+
+var Fingerprint = flag.String("fingerprint", "/etc/digitalocean.fingerprint", "filename containing ssh key fingerprint, for droplet creation")
 
 var Command = flag.String("f", "", "Use `c` for create, `l` for long lookup, `d` for delete, `t` for by-tag, `n` to get public IP")
 
@@ -28,7 +30,7 @@ func main() {
 	flag.Parse()
 	ctx := context.TODO()
 
-	token, err := ioutil.ReadFile("/home/strick/keys/carbon-one")
+	token, err := ioutil.ReadFile(*Token)
 	if err != nil {
 		panic(err)
 	}
@@ -117,7 +119,14 @@ func main() {
 		fmt.Printf("OK\n")
 
 	default:
-		panic("TODO:" + *Command)
-
+		log.SetFlags(0)
+		log.Printf(`Usage:
+	NAME=$(godo-client -f=c)  # create droplet and save its name
+	godo-client -f=n $NAME    # get network IP addr
+	godo-client -f=l $NAME    # list droplet
+	godo-client -f=t temp     # list by TAG 'temp'
+	godo-client -f=d $NAME    # list by TAG or NAME
+`)
+		log.Fatalf("Failed.")
 	}
 }
