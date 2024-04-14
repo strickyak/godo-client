@@ -20,6 +20,11 @@ import (
 	"time"
 )
 
+const M84H12 = "m-2vcpu-16gb" // fast
+const M18H3 = "s-2vcpu-2gb"   // cheap
+
+var Shape = flag.String("shape", "cheap", "Slug for machine shape, or 'cheap' or 'fast'")
+
 var Token = flag.String("token", "/etc/digitalocean.token", "filename containing digital ocean fingerprint")
 
 var Fingerprint = flag.String("fingerprint", "/etc/digitalocean.fingerprint", "filename containing ssh key fingerprint, for droplet creation")
@@ -29,6 +34,11 @@ var Command = flag.String("f", "", "Use `c` for create, `l` for long lookup, `d`
 func main() {
 	flag.Parse()
 	ctx := context.TODO()
+	if *Shape == "cheap" {
+		*Shape = M18H3
+	} else if *Shape == "fast" {
+		*Shape = M84H12
+	}
 
 	token, err := ioutil.ReadFile(*Token)
 	if err != nil {
@@ -55,14 +65,14 @@ func main() {
 		createRequest := &godo.DropletCreateRequest{
 			Name:   epoch,
 			Region: "sfo3",
-			Size:   "s-2vcpu-2gb",
+			Size:   *Shape,
 			Image: godo.DropletCreateImage{
 				Slug: "ubuntu-22-04-x64",
 			},
-			Tags:     []string{"temp", epoch},
-			UserData: "epoch=" + epoch,
-			SSHKeys:  []godo.DropletCreateSSHKey{sshKey},
-			WithDropletAgent: &_true,
+			Tags:              []string{"temp", epoch},
+			UserData:          "epoch=" + epoch,
+			SSHKeys:           []godo.DropletCreateSSHKey{sshKey},
+			WithDropletAgent:  &_true,
 			PrivateNetworking: false,
 		}
 
