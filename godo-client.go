@@ -67,7 +67,7 @@ func main() {
 			Region: "sfo3",
 			Size:   *Shape,
 			Image: godo.DropletCreateImage{
-				Slug: "ubuntu-22-04-x64",
+				Slug: "ubuntu-24-04-x64",
 			},
 			Tags:              []string{"temp", epoch},
 			UserData:          "epoch=" + epoch,
